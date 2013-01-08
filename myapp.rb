@@ -53,7 +53,7 @@ post '/notifier_api/v2/notices/' do
   error_elm = parsed.at("error")
   request_elm = parsed.at("request")
 
-  backtrace = error_elm.at("backtrace").inner_html rescue ""
+  backtrace = error_elm.at("backtrace").inner_html rescue ""  
   component = request_elm.at("component").inner_html rescue ""
   action = request_elm.at("action").inner_html rescue ""
   url = request_elm.at("url").inner_html rescue ""

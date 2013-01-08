@@ -27,6 +27,7 @@
         </div>
       </div>
       <h1><%= @error.id %></h1>
+      <h2><%= @error.component %>#<%= @error.action %></h2>
       <h3><%= @error.error_class %></h3>
       <p class="well">
       <%= @error.env %> Environment
@@ -34,6 +35,16 @@
       <p>
         <strong>Message:</strong><br/>
         <pre><%= @error.error_message %></pre>
+      </p>
+      <p>
+        <strong>Params:</strong><br/>
+        <pre>{<% @error.params.each_pair do |key, val| -%>
+          <%= key %> => <%= val %>
+        <% end -%>}</pre>
+      </p>
+      <p>
+        <strong>Backtrace:</strong><br/>
+        <pre><%= @error.backtrace %></pre>
       </p>
   </div>
   <script src="http://code.jquery.com/jquery-latest.js"></script>

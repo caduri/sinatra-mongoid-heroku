@@ -65,7 +65,7 @@
       </table>
       <ul class="pager">
         <% if params[:page].to_i > 1 %>
-        <li><a href="?<%= params[:page].to_i - 1 %>">Previous</a></li>
+        <li><a href="?page=<%= params[:page].to_i - 1 %>">Previous</a></li>
         <% end %>
         <li><%= params[:page] || 1 %></li>
         <li><a href="?page=<%= (params[:page] || 1 ).to_i + 1 %>">Next</a></li>
