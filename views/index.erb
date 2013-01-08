@@ -7,12 +7,13 @@
   <meta name="author" content="Fiverr">
   <link href="/bootstrap/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
   <style>
-    table {
-      width: 620px;
-    }
-
     table td, table th {
       overflow: hidden;
+    }
+
+    p.overflow {
+      width: 500px;
+      word-wrap: break-word;
     }
   </style>
 </head>
@@ -41,7 +42,7 @@
           </p>
         </div>
       </div>
-      <table class="table table-bordered table-striped" style="width:619px;">
+      <table class="table table-bordered table-striped">
         <thead>
           <tr>
             <th><i class="icon-globe"></i> Env</th>
@@ -57,7 +58,7 @@
               <td><%= error.env %></td>
               <td><%= error.host %></td>
               <td><a href="/error/<%= error.id %>"><%= error.error_class %></a></td>
-              <td><%= error.error_message %></td>
+              <td><p class="overflow"><%= error.error_message %></p></td>
               <td><%= error.created_at.strftime("%D %R") %></td>
             </tr>
           <% end %>
