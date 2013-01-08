@@ -34,7 +34,7 @@
         <div class="media-body">
           <h4 class="media-heading">About</h4>
           <p class="lead">
-            The most undervalued error logger ever, dedicated to the wonderful<br/>Maccabi Haifa left back, <a href="https://www.facebook.com/pages/%D7%90%D7%99%D7%99%D7%9C-%D7%9E%D7%A9%D7%95%D7%9E%D7%A8-Eyal-Meshumar/204865832884822">Mr. Eyal Meshumar</a>
+            The most undervalued error logger ever, dedicated to the wonderful Maccabi Haifa left back, <a href="https://www.facebook.com/pages/%D7%90%D7%99%D7%99%D7%9C-%D7%9E%D7%A9%D7%95%D7%9E%D7%A8-Eyal-Meshumar/204865832884822">Mr. Eyal Meshumar</a>
           </p>
           <p style="text-align:center;">
             <a href="http://www.youtube.com/results?search_query=%D7%9E%D7%A9%D7%95%D7%9E%D7%A8&oq=%D7%9E%D7%A9%D7%95%D7%9E%D7%A8&gs_l=youtube.3..0i19.61756.62833.0.63018.5.5.0.0.0.0.196.537.1j3.4.0...0.0...1ac.1.JzrFSoOXJIE" class="btn btn-primary">See Meshumar in action</a>
@@ -56,7 +56,7 @@
             <tr>
               <td><%= error.env %></td>
               <td><%= error.host %></td>
-              <td><%= error.error_class %></td>
+              <td><a href="/error/<%= error.id %>"><%= error.error_class %></a></td>
               <td><%= error.error_message %></td>
               <td><%= error.created_at.strftime("%D %R") %></td>
             </tr>
