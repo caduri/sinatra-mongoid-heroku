@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Error Or Die!</title>
+  <meta name="description" content="The ERROR OR DIE!">
+  <meta name="author" content="Fiverr">
+  <link href="/bootstrap/css/bootstrap.min.css" media="all" rel="stylesheet" type="text/css" />
+</head>
+<body>
+  <div class="container">
+    <div class="offset2 span8">
+      <div class="navbar">
+        <div class="navbar-inner">
+          <a class="brand" href="#">Error Or Die!</a>
+          <ul class="nav">
+            <li class="active"><a href="#">Home</a></li>
+          </ul>
+        </div>
+      </div>
+      <h1>Error Or Die!</h1>
+      <p class="lead">The place where all pesky errors come to die</p>
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th><i class="icon-globe"></i> Env</th>
+            <th><i class="icon-user"></i> Sender</th>
+            <th><i class="icon-gift"></i> Class</th>
+            <th><i class="icon-thumbs-down"></i> Message</th>
+            <th><i class="icon-time"></i> At</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @errors.each do |error| %>
+            <tr>
+              <td><%= error.env %></td>
+              <td><%= error.host %></td>
+              <td><%= error.error_class %></td>
+              <td><%= error.error_message %></td>
+              <td><%= error.created_at.strftime("%D %R") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <ul class="pager">
+        <% if params[:page].to_i > 1 %>
+        <li><a href="?<%= params[:page].to_i - 1 %>">Previous</a></li>
+        <% end %>
+        <li><%= params[:page] || 1 %></li>
+        <li><a href="?page=<%= (params[:page] || 1 ).to_i + 1 %>">Next</a></li>
+      </ul>
+    </div>
+  </div>
+  <script src="http://code.jquery.com/jquery-latest.js"></script>
+  <script src="/bootstrap/js/bootstrap.min.js" type="text/javascript" />
+</body>
+</html>
