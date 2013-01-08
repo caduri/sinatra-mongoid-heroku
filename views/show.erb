@@ -38,7 +38,7 @@
       </p>
       <p>
         <strong>Params:</strong><br/>
-        <pre>{ <%- @error.params.each_pair do |key, val|%>
+        <pre>{ <% @error.params.each_pair do |key, val|%>
           "<%= key %>" => "<%= val %>" 
         <% end if @error.params %>}</pre>
       </p>
