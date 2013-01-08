@@ -38,9 +38,10 @@
       </p>
       <p>
         <strong>Params:</strong><br/>
-        <pre>{<% @error.params.each_pair do |key, val| -%>
+        <pre>{
+        <% @error.params.each_pair do |key, val| %>
           <%= key %> => <%= val %>
-        <% end -%>}</pre>
+        <% end if @error.params %>}</pre>
       </p>
       <p>
         <strong>Backtrace:</strong><br/>
