@@ -17,6 +17,7 @@ class ErrorReport
     field :error_class,   :type => String
     field :error_message, :type => String
     field :params,        :type => Hash
+    field :raw,           :type => String
 end
 
 get "/" do
@@ -25,7 +26,8 @@ end
 
 # Controllers
 post '/errors' do
-  
+  ErrorReport.create!(:raw => request.body)
+  status 201
 end
 
 
