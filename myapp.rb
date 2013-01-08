@@ -24,7 +24,7 @@ class ErrorReport
     field :backtrace,     :type => String
     field :component,     :type => String
     field :action,        :type => String
-    field :open           :type => Boolean, :default => true
+    field :open,           :type => Boolean, :default => true
 end
 
 get "/" do
