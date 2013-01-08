@@ -13,7 +13,7 @@ test:
     <<: *defaults
         
 production:  
-    <<: *defaults
+    uri: <%= ENV['MONGOLAB_URI'] %>
 
 
 
