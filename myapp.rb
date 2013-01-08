@@ -15,6 +15,7 @@ class ErrorReport
     include Mongoid::Timestamps
 
     field :env,           :type => String
+    field :url,           :type => String
     field :host,          :type => String
     field :error_class,   :type => String
     field :error_message, :type => String
@@ -42,15 +43,22 @@ post '/notifier_api/v2/notices/' do
   env_name = server_env.at("environment-name").inner_html
   host = server_env.at("hostname").inner_html
   error_elm = parsed.at("error")
+  request_elm = parsed.at("request")
+  url = request_elm.at("url").inner_html
   error_class = error_elm.at("class").inner_html
   error_message = error_elm.at("message").inner_html
   
-  ErrorReport.create!(:env => env_name,
-                      :host => host,
-                      :error_class => error_class,
-                      :error_message => error_message,
-                      :raw => raw)
-  status 201
+  begin
+    ErrorReport.create!(:env => env_name,
+                        :host => host,
+                        :error_class => error_class,
+                        :error_message => error_message)
+    status 201
+  rescue Exception => e
+    $stdout.puts "ERROR: #{e}"
+    status 500
+  end
+  
 end
 
 
