@@ -77,7 +77,7 @@ class Public < Sinatra::Base
 
     if request_elm
       (request_elm/"var").each do |var|
-        params[var.attributes["key"]] = var.inner_html
+        params[var.attributes["key"].gsub(".", ' ')] = var.inner_html
       end
     end
     begin
