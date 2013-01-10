@@ -88,7 +88,7 @@ class Public < Sinatra::Base
                           :component => component,
                           :action => action,
                           :backtrace => "Under Development",
-                          :params => params)
+                          :params => Marshal.dump(params))
       status 201
     rescue Exception => e
       puts "ERROR: #{e}"
