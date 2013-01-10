@@ -77,7 +77,7 @@ class Public < Sinatra::Base
 
     if request_elm
       (request_elm/"var").each do |var|
-        params[var.attributes["key"].gsub(".", ' ')] = var.inner_html
+        params[var.attributes["key"].gsub(".", ' ').downcase] = var.inner_html
       end
     end
     begin
@@ -87,7 +87,7 @@ class Public < Sinatra::Base
                           :error_message => error_message,
                           :component => component,
                           :action => action,
-                          :backtrace => backtrace,
+                          :backtrace => "Under Development",
                           :params => params)
       status 201
     rescue Exception => e
