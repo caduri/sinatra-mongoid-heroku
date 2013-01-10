@@ -74,8 +74,11 @@ class Public < Sinatra::Base
     error_message = error_elm.at("message").inner_html rescue ""
     
     params = {}
-    (request_elm/"var").each do |var|
-      params[var.attributes["key"]] = var.inner_html
+
+    if request_elm
+      (request_elm/"var").each do |var|
+        params[var.attributes["key"]] = var.inner_html
+      end
     end
     begin
       ErrorReport.create!(:env => env_name,
