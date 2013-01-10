@@ -29,7 +29,7 @@ end
 
 class Protected < Sinatra::Base
   use Rack::Auth::Basic, "Protected Area" do |username, password|
-    username == 'fiverr' && password == '111111'
+    username == 'fiverr' && password == 'HaifaalufA'
   end
 
   set :static, true
@@ -41,7 +41,7 @@ class Protected < Sinatra::Base
 
   get "/" do
     page = (params[:page] || 1).to_i
-    @errors = ErrorReport.limit(20).skip(20 * page - 1).desc("_id").all
+    @errors = ErrorReport.limit(20).skip((page - 1) * 20).desc("_id").all
     erb :index
   end
 
