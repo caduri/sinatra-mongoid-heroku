@@ -57,7 +57,7 @@
             <tr>
               <td><%= error.env %></td>
               <td><%= error.host %></td>
-              <td><a href="/error/<%= error.id %>"><%= error.error_class %></a></td>
+              <td><a href="/errors/<%= error.id %>"><%= error.error_class %></a></td>
               <td><p class="overflow"><%= error.error_message %></p></td>
               <td><%= error.created_at.strftime("%D %R") %></td>
             </tr>

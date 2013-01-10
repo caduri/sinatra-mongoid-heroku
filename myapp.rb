@@ -60,7 +60,7 @@ class Public < Sinatra::Base
   end
 
   # Controllers
-  post 'v2/notices/' do
+  post '/notifier_api/v2/notices/' do
     $stdout.puts params.inspect
     raw = request.body.read
     parsed = Hpricot::XML(raw)
