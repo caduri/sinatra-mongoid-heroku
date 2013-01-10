@@ -21,15 +21,15 @@
   <div class="container">
       <div class="navbar">
         <div class="navbar-inner">
-          <a class="brand" href="#">Meshumar&copy;</a>
+          <a class="brand" href="/errors">Meshumar&copy;</a>
           <ul class="nav">
-            <li class="active"><a href="#">Home</a></li>
+            <li class="active"><a href="/errors">Home</a></li>
           </ul>
         </div>
       </div>
       <h1>The Eyal Meshumar</h1>
       <div class="media well">
-        <a class="pull-left" href="#">
+        <a class="pull-left" href="https://www.facebook.com/pages/%D7%90%D7%99%D7%99%D7%9C-%D7%9E%D7%A9%D7%95%D7%9E%D7%A8-Eyal-Meshumar/204865832884822">
           <img src="/images/meshumar.jpg" class="media-object">
         </a>
         <div class="media-body">
@@ -43,6 +43,7 @@
         </div>
       </div>
       <table class="table table-bordered table-striped">
+        <caption><%= ErrorReport.count %> Total Errors </caption>
         <thead>
           <tr>
             <th><i class="icon-globe"></i> Env</th>
