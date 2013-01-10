@@ -33,11 +33,11 @@
       </p>
       <dl class="dl-horizontal">
         <dt>Message</dt>
-        <dd><pre><%= @error.error_message %></pre></dd>
+        <dd><pre><%= @error.error_message %> - <a target="_blank" href="http://www.google.com/search?q=<%= @error.error_message%>">Google it!</a></pre></dd>
         <dt>Environment:</dt>
         <dd><pre><%= @error.env %></pre></dd>
         <dt>URL:</dt>
-        <dd><pre><%= @error.url %></pre></dd>
+        <dd><pre><%= [@error.params["request_method"], @error.url].compact.join(" ") %></pre></dd>
         <dt>Code:</dt>
         <dd><pre><%= @error.component %>#<%= @error.action %></pre></dd>
         <dt>Backtrace</dt>
