@@ -51,10 +51,6 @@ class Public < Sinatra::Base
 
   set :static, true
 
-  before do
-    $stdout.puts "In Public"
-  end
-
   get "/" do
     status 401
   end
@@ -92,7 +88,7 @@ class Public < Sinatra::Base
                           :params => params)
       status 201
     rescue Exception => e
-      $stdout.puts "ERROR: #{e}"
+      puts "ERROR: #{e}"
       status 500
     end
   end
