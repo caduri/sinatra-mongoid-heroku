@@ -57,8 +57,8 @@ class Public < Sinatra::Base
 
   # Controllers
   post '/notifier_api/v2/notices/' do
-    $stdout.puts params.inspect
     raw = request.body.read
+    $stdout.puts raw.inspect
     parsed = Hpricot::XML(raw)
     server_env = parsed.at("server-environment")
     env_name = server_env.at("environment-name").inner_html rescue ""
