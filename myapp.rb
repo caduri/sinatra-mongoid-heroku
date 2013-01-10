@@ -58,7 +58,7 @@ class Public < Sinatra::Base
   # Controllers
   post '/notifier_api/v2/notices/' do
     raw = request.body.read
-    $stdout.puts raw.inspect
+    #$stdout.puts raw.inspect
     parsed = Hpricot::XML(raw)
     server_env = parsed.at("server-environment")
     env_name = server_env.at("environment-name").inner_html rescue ""
@@ -66,7 +66,12 @@ class Public < Sinatra::Base
     error_elm = parsed.at("error")
     request_elm = parsed.at("request")
 
-    backtrace = error_elm.at("backtrace").inner_html rescue ""  
+    backtrace = parsed.at("backtrace")
+    if backtrace
+      backtrace = (backtrace/"line").collect { |e| [e.attributes["file"], e.attributes["number"]].join(":") }.slice(0...5)
+    end
+
+    $stdout.puts backtrace.inspect
     component = request_elm.at("component").inner_html rescue ""
     action = request_elm.at("action").inner_html rescue ""
     url = request_elm.at("url").inner_html rescue ""
@@ -77,18 +82,19 @@ class Public < Sinatra::Base
 
     if request_elm
       (request_elm/"var").each do |var|
-        params[var.attributes["key"].gsub(".", ' ').downcase] = var.inner_html
+        params[var.attributes["key"].gsub(".", ' ').downcase] = var.inner_html unless var.attributes["key"].include?("rack.")
       end
     end
     begin
       ErrorReport.create!(:env => env_name,
                           :host => host,
+                          :url => url,
                           :error_class => error_class,
                           :error_message => error_message,
                           :component => component,
                           :action => action,
-                          :backtrace => "Under Development",
-                          :params => {})
+                          :backtrace => backtrace.join("<br/>"),
+                          :params => params)
       status 201
     rescue Exception => e
       puts "ERROR: #{e}"
