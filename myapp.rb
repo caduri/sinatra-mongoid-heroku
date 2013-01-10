@@ -27,59 +27,74 @@ class ErrorReport
     field :open,           :type => Boolean, :default => true
 end
 
-get "/" do
-  status 404
-end
-
-get "/error/:id" do
-  @error = ErrorReport.find(params[:id])
-  erb :show
-end
-
-get "/jshdvbn2846shdhhhdsj" do
-  page = params[:page].to_i
-  @errors = ErrorReport.limit(20).skip(20 * page).desc("_id").all
-  @errors
-  erb :index
-end
-
-# Controllers
-post '/notifier_api/v2/notices/' do
-  $stdout.puts params.inspect
-  raw = request.body.read
-  parsed = Hpricot::XML(raw)
-  server_env = parsed.at("server-environment")
-  env_name = server_env.at("environment-name").inner_html rescue ""
-  host = server_env.at("hostname").inner_html rescue ""
-  error_elm = parsed.at("error")
-  request_elm = parsed.at("request")
-
-  backtrace = error_elm.at("backtrace").inner_html rescue ""  
-  component = request_elm.at("component").inner_html rescue ""
-  action = request_elm.at("action").inner_html rescue ""
-  url = request_elm.at("url").inner_html rescue ""
-  error_class = error_elm.at("class").inner_html rescue ""
-  error_message = error_elm.at("message").inner_html rescue ""
-  
-  params = {}
-  (request_elm/"var").each do |var|
-    params[var.attributes["key"]] = var.inner_html
+class Protected < Sinatra::Base
+  use Rack::Auth::Basic, "Protected Area" do |username, password|
+    username == 'fiverr' && password == '111111'
   end
-  begin
-    ErrorReport.create!(:env => env_name,
-                        :host => host,
-                        :error_class => error_class,
-                        :error_message => error_message,
-                        :component => component,
-                        :action => action,
-                        :backtrace => backtrace,
-                        :params => params)
-    status 201
-  rescue Exception => e
-    $stdout.puts "ERROR: #{e}"
-    status 500
+
+  set :static, true
+
+  get "/:id" do
+    @error = ErrorReport.find(params[:id])
+    erb :show
   end
-  
+
+  get "/" do
+    page = (params[:page] || 1).to_i
+    @errors = ErrorReport.limit(20).skip(20 * page - 1).desc("_id").all
+    erb :index
+  end
+
 end
 
+class Public < Sinatra::Base
+
+  set :static, true
+
+  before do
+    $stdout.puts "In Public"
+  end
+
+  get "/" do
+    status 401
+  end
+
+  # Controllers
+  post '/v2/notices/' do
+    $stdout.puts params.inspect
+    raw = request.body.read
+    parsed = Hpricot::XML(raw)
+    server_env = parsed.at("server-environment")
+    env_name = server_env.at("environment-name").inner_html rescue ""
+    host = server_env.at("hostname").inner_html rescue ""
+    error_elm = parsed.at("error")
+    request_elm = parsed.at("request")
+
+    backtrace = error_elm.at("backtrace").inner_html rescue ""  
+    component = request_elm.at("component").inner_html rescue ""
+    action = request_elm.at("action").inner_html rescue ""
+    url = request_elm.at("url").inner_html rescue ""
+    error_class = error_elm.at("class").inner_html rescue ""
+    error_message = error_elm.at("message").inner_html rescue ""
+    
+    params = {}
+    (request_elm/"var").each do |var|
+      params[var.attributes["key"]] = var.inner_html
+    end
+    begin
+      ErrorReport.create!(:env => env_name,
+                          :host => host,
+                          :error_class => error_class,
+                          :error_message => error_message,
+                          :component => component,
+                          :action => action,
+                          :backtrace => backtrace,
+                          :params => params)
+      status 201
+    rescue Exception => e
+      $stdout.puts "ERROR: #{e}"
+      status 500
+    end
+  end
+end
 
