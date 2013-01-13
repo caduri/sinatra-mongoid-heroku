@@ -104,14 +104,11 @@
             <small class="pull-right"><%= error.created_at %></small>
             <strong><%= error.error_class %>: <%= error.error_message %></strong>
           </p>
-          <div class="row">
-            <div class="span8">
-              <pre><%= error.request_info %> => <%= error.component %>#<%= error.action %></pre>
-            </div>
-            <div class="span3">
-              <a href="/errors/<%= error.id %>" class="btn btn-primary">Show</a>
-              <a href="/errors/close/<%= error.id %>" class="btn btn-danger">Close</a>
-            </div>
+          <pre><%= error.request_info %> => <%= error.component %>#<%= error.action %></pre>
+          <div>
+            <a href="/errors/<%= error.id %>" class="btn btn-primary">Show</a>
+            <a href="/errors/close/<%= error.id %>" class="btn btn-danger">Close</a>
+          </div>
           </div>
         </div>
       <% end %>
