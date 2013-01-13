@@ -42,23 +42,23 @@
           </p>
         </div>
       </div>
-      <form class="form-horizontal" method="get" action="/errors">
-        <fieldset>
+      <form class="form-horizontal row" method="get" action="/errors">
+        <fieldset class="span6">
           <legend>Search</legend>
           <div class="control-group">
-            <label class="control-label" for="component">Controller:</label>
+            <label class="control-label" for="inputUsers">Controller:</label>
             <div class="controls">
               <input type="text" id="inputUsers" name="component" placeholder="users" value="<%= params[:component] %>">
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="action">Action:</label>
+            <label class="control-label" for="inputAction">Action:</label>
             <div class="controls">
               <input type="text" id="inputAction" name="action" placeholder="index" value="<%= params[:action] %>">
             </div>
           </div>
           <div class="control-group">
-            <label class="control-label" for="error_class">Exception:</label>
+            <label class="control-label" for="inputException">Exception:</label>
             <div class="controls">
               <input type="text" id="inputException" name="error_class" placeholder="RuntimeError" value="<%= params[:error_class] %>">
             </div>
@@ -69,30 +69,50 @@
             </div>
           </div>
         </fieldset>
+        <fieldset class="span4">
+          <legend>Stats</legend>
+          <h5>General</h5>
+          <dl class="dl-horizontal">
+            <dt>Total Errors:</dt>
+            <dd><%= ErrorReport.where({:open => true}).count %></dd>
+          </dl>
+          <h5>Error Distribution</h5>
+          <% @errors_by_location = @errors.group_by(&:location) %>
+          <% @errors_by_location.each_pair do |location, items|
+            @errors_by_location[location] = ((items.size.to_f / @errors.size.to_i.to_f) * 100).to_i
+          end %>
+            <% @errors_by_location.each_pair do |location, percentage| %>
+              <% color = case percentage
+                  when 0..20
+                    "progress-info"
+                  when 21..40
+                    "progress-warning"
+                  when 41..100
+                    "progress-danger"
+                  end
+              %>
+              <div class="progress progress-striped <%= color %> active">
+                <div class="bar" style="width: <%= percentage %>%;"><%= location %> (<%= percentage%>%)</div>
+              </div>
+            <% end %>
+        </fieldset>
       </form>
-      <table class="table table-bordered table-striped">
-        <caption><%= ErrorReport.count %> Total Errors </caption>
-        <thead>
-          <tr>
-            <th><i class="icon-globe"></i> Env</th>
-            <th><i class="icon-user"></i> Sender</th>
-            <th><i class="icon-gift"></i> Class</th>
-            <th><i class="icon-thumbs-down"></i> Message</th>
-            <th><i class="icon-time"></i> At</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% @errors.each do |error| %>
-            <tr>
-              <td><%= error.env %></td>
-              <td><%= error.host %></td>
-              <td><a href="/errors/<%= error.id %>"><%= error.error_class %></a></td>
-              <td><p class="overflow"><%= error.error_message %></p></td>
-              <td><%= error.created_at.strftime("%D %R") %></td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+      <section>
+      <% @errors.each do |error| %>
+        <div class="well">
+          <h4><%= error.error_class %>: <%= error.error_message %></h4>
+          <div class="row">
+            <div class="span8">
+              <pre><%= error.request_info %> => <%= error.component %>#<%= error.action %></pre>
+            </div>
+            <div class="span3">
+              <a href="/errors/<%= error.id %>" class="btn btn-primary">Show</a>
+              <a href="/errors/close/<%= error.id %>" class="btn btn-danger">Close</a>
+            </div>
+          </div>
+        </div>
+      <% end %>
+      </section>
       <ul class="pager">
         <% page = (params[:page] || 1).to_i %>
         <% if  page > 1 %>

@@ -11,20 +11,33 @@ Mongoid.load!("config/mongoid.yml")
 
 # Models
 class ErrorReport
-    include Mongoid::Document
-    include Mongoid::Timestamps
+  include Mongoid::Document
+  include Mongoid::Timestamps
 
-    field :env,           :type => String
-    field :url,           :type => String
-    field :host,          :type => String
-    field :error_class,   :type => String
-    field :error_message, :type => String
-    field :params,        :type => Hash
-    field :raw,           :type => String
-    field :backtrace,     :type => String
-    field :component,     :type => String
-    field :action,        :type => String
-    field :open,           :type => Boolean, :default => true
+  field :env,           :type => String
+  field :url,           :type => String
+  field :host,          :type => String
+  field :error_class,   :type => String
+  field :error_message, :type => String
+  field :params,        :type => Hash
+  field :raw,           :type => String
+  field :backtrace,     :type => String
+  field :component,     :type => String
+  field :action,        :type => String
+  field :open,           :type => Boolean, :default => true
+  field :deploy_key,    :type => String
+
+  def request_info
+    if self.params
+      [self.params["request_method"], self.url].compact.join(" ")
+    else
+      "UNKNOWN #{self.url}"
+    end
+  end
+
+  def location
+    [self.component, self.action].compact.join("#")
+  end
 end
 
 class Protected < Sinatra::Base
@@ -44,11 +57,19 @@ class Protected < Sinatra::Base
     params.delete(:page)
     search_params = params.dup
     search_params.delete_if { |key, val| val.to_s == ""}
-    puts search_params.inspect
+    search_params.merge!({:open => true})
     @errors = ErrorReport.where(search_params).limit(20).skip((page - 1) * 20).desc("_id").all
     erb :index
   end
 
+  get "/close/:id" do
+    @error = ErrorReport.find(params[:id])
+    if @error
+      @error.open = false
+      @error.save!
+    end
+    redirect "/errors"
+  end
 end
 
 class Public < Sinatra::Base

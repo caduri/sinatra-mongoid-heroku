@@ -44,7 +44,7 @@
         <dt>Environment:</dt>
         <dd><pre><%= @error.env %></pre></dd>
         <dt>URL:</dt>
-        <dd><pre><%= [@error.params["request_method"], @error.url].compact.join(" ") %></pre></dd>
+        <dd><pre><%= @error.request_info %></pre></dd>
         <dt>Code:</dt>
         <dd><pre><%= @error.component %>#<%= @error.action %></pre></dd>
         <dt>Backtrace</dt>
