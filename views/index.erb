@@ -77,7 +77,7 @@
             <dd><%= ErrorReport.where({:open => true}).count %></dd>
           </dl>
           <h5>Error Distribution</h5>
-          <% @errors_by_location = @errors.group_by(&:location) %>
+          <% @errors_by_location = ErrorReport.all.group_by(&:location) %>
           <% @errors_by_location.each_pair do |location, items|
             @errors_by_location[location] = ((items.size.to_f / @errors.size.to_i.to_f) * 100).to_i
           end %>
