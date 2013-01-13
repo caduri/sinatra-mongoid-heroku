@@ -100,8 +100,10 @@
       <section>
       <% @errors.each do |error| %>
         <div class="well">
-          <span class="pull-right"><%= error.created_at %></span>
-          <h4><%= error.error_class %>: <%= error.error_message %></h4>
+          <p>
+            <small class="pull-right"><%= error.created_at %></small>
+            <strong><%= error.error_class %>: <%= error.error_message %></strong>
+          </p>
           <div class="row">
             <div class="span8">
               <pre><%= error.request_info %> => <%= error.component %>#<%= error.action %></pre>
