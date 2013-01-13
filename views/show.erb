@@ -33,7 +33,14 @@
       </p>
       <dl class="dl-horizontal">
         <dt>Message</dt>
-        <dd><pre><%= @error.error_message %> - <a target="_blank" href="http://www.google.com/search?q=<%= @error.error_message%>">Google it!</a></pre></dd>
+        <dd><pre><%= @error.error_message %></pre>
+          <p>
+          <a target="_blank" class="btn btn-primary" href="http://www.google.com/search?q=<%= @error.error_message%>">Google it!</a>
+          <a target="_blank" class="btn btn-primary" href="http://stackoverflow.com/search?q=<%= @error.error_message%>">Stackoverflow it!</a>
+          <span> or </span>
+          <a target="_blank" class="btn btn-primary" href="http://www.youtube.com/watch?v=NHozn0YXAeE">Just fuck it...</a>
+          </p>
+        </dd>
         <dt>Environment:</dt>
         <dd><pre><%= @error.env %></pre></dd>
         <dt>URL:</dt>
