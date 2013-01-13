@@ -80,7 +80,7 @@
             <h5>Error Distribution</h5>
             <% @errors_by_location = ErrorReport.where({:open => true}).all.group_by(&:location) %>
             <% @errors_by_location.each_pair do |location, items|
-              @errors_by_location[location] = ((items.size.to_f / error_count.to_i.to_f) * 100).to_i
+              @errors_by_location[location] = ((items.size.to_f / @error_count.to_i.to_f) * 100).to_i
             end %>
               <% @errors_by_location.each_pair do |location, percentage| %>
                 <% color = case percentage
