@@ -68,7 +68,7 @@ class Protected < Sinatra::Base
       @error.open = false
       @error.save!
     end
-    redirect "/errors"
+    redirect request.referer
   end
 end
 
