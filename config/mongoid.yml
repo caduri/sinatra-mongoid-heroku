@@ -9,7 +9,7 @@ test:
     <<: *defaults
         
 production:  
-    uri: <%= ENV['MONGOLAB_URI'] %>
+    uri: <%= ENV['MONGOHQ_URL'] %>
 
 
 
