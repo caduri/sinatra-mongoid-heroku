@@ -69,32 +69,34 @@
             </div>
           </div>
         </fieldset>
-        <fieldset class="span4">
+        <fieldset class="span6">
           <legend>Stats</legend>
           <h5>General</h5>
           <dl class="dl-horizontal">
             <dt>Total Errors:</dt>
-            <dd><%= ErrorReport.where({:open => true}).count %></dd>
+            <dd><%= @error_count = ErrorReport.where({:open => true}).count %></dd>
           </dl>
-          <h5>Error Distribution</h5>
-          <% @errors_by_location = ErrorReport.all.group_by(&:location) %>
-          <% @errors_by_location.each_pair do |location, items|
-            @errors_by_location[location] = ((items.size.to_f / @errors.size.to_i.to_f) * 100).to_i
-          end %>
-            <% @errors_by_location.each_pair do |location, percentage| %>
-              <% color = case percentage
-                  when 0..20
-                    "progress-info"
-                  when 21..40
-                    "progress-warning"
-                  when 41..100
-                    "progress-danger"
-                  end
-              %>
-              <div class="progress progress-striped <%= color %> active">
-                <div class="bar" style="color: black; width: <%= percentage %>%;"><%= location %> (<%= percentage%>%)</div>
-              </div>
-            <% end %>
+          <% if @error_count > 0 %>
+            <h5>Error Distribution</h5>
+            <% @errors_by_location = ErrorReport.where({:open => true}).all.group_by(&:location) %>
+            <% @errors_by_location.each_pair do |location, items|
+              @errors_by_location[location] = ((items.size.to_f / error_count.to_i.to_f) * 100).to_i
+            end %>
+              <% @errors_by_location.each_pair do |location, percentage| %>
+                <% color = case percentage
+                    when 0..20
+                      "progress-info"
+                    when 21..40
+                      "progress-warning"
+                    when 41..100
+                      "progress-danger"
+                    end
+                %>
+                <div class="progress progress-striped <%= color %> active">
+                  <div class="bar" style="color: black; width: <%= percentage %>%;"><%= location %> (<%= percentage%>%)</div>
+                </div>
+              <% end %>
+          <% end %>
         </fieldset>
       </form>
       <section>
