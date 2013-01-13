@@ -41,7 +41,11 @@ class Protected < Sinatra::Base
 
   get "/" do
     page = (params[:page] || 1).to_i
-    @errors = ErrorReport.limit(20).skip((page - 1) * 20).desc("_id").all
+    params.delete(:page)
+    search_params = params.dup
+    search_params.delete_if { |key, val| val.to_s == ""}
+    puts search_params.inspect
+    @errors = ErrorReport.where(search_params).limit(20).skip((page - 1) * 20).desc("_id").all
     erb :index
   end
 

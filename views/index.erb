@@ -42,6 +42,34 @@
           </p>
         </div>
       </div>
+      <form class="form-horizontal" method="get" action="/errors">
+        <fieldset>
+          <legend>Search</legend>
+          <div class="control-group">
+            <label class="control-label" for="component">Controller:</label>
+            <div class="controls">
+              <input type="text" id="inputUsers" name="component" placeholder="users" value="<%= params[:component] %>">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="action">Action:</label>
+            <div class="controls">
+              <input type="text" id="inputAction" name="action" placeholder="index" value="<%= params[:action] %>">
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="error_class">Exception:</label>
+            <div class="controls">
+              <input type="text" id="inputException" name="error_class" placeholder="RuntimeError" value="<%= params[:error_class] %>">
+            </div>
+          </div>
+          <div class="control-group">
+            <div class="controls">
+              <button type="submit" class="btn">Search</button>
+            </div>
+          </div>
+        </fieldset>
+      </form>
       <table class="table table-bordered table-striped">
         <caption><%= ErrorReport.count %> Total Errors </caption>
         <thead>
