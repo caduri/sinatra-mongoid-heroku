@@ -102,7 +102,7 @@
                   <%
                     component, action = location.split("#")
                   %>
-                  <a style="position: absolute; z-index: 2; color: black; text-align: left; width: 100%; top:5px; left:10px;" href="/errors?component=<%= component %>&action=<%= action %>&error_class="><%= location %> (<%= percentage %>%)</a>
+                  <a style="position: absolute; z-index: 2; color: black; text-align: left; width: 100%; top:5px; left:10px;" href="/errors?open=on&component=<%= component %>&action=<%= action %>&error_class="><%= location %> (<%= percentage %>%)</a>
                   <div class="bar" style="color: black; width: <%= percentage %>%;"></div>
                 </div>
               <% end %>
