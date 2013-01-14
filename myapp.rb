@@ -53,6 +53,22 @@ class Protected < Sinatra::Base
   end
 
   get "/" do
+    if params[:component]
+      case params[:component]
+      when "shai"
+        redirect "http://www.youtube.com/watch?v=WIK0h3xo9O0"
+      when "avner"
+        redirect "http://www.youtube.com/watch?v=LkwGlVztiuU"
+      when "nir"
+        redirect "http://www.youtube.com/watch?v=Vyt0TuqlReg"
+      when "moshe"
+        redirect "http://www.youtube.com/watch?v=ILRe9dHyby8"
+      when "yogev"
+        redirect "http://www.freegaytube.com/"
+      else
+      end
+    end
+
     page = (params[:page] || 1).to_i
     params.delete(:page)
     search_params = params.dup
