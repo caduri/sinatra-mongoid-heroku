@@ -92,8 +92,11 @@
                       "progress-danger"
                     end
                 %>
-                <div class="progress progress-striped <%= color %> active" style="position:relative;">
-                  <span style="position: absolute; z-index: 2; color: black; text-align: left; width: 100%; "><%= location %> (<%= percentage %>%)</span>
+                <div class="progress progress-striped <%= color %> active" style="position:relative; height:30px;">
+                  <%
+                    component, action = location.split("#")
+                  %>
+                  <a style="position: absolute; z-index: 2; color: black; text-align: left; width: 100%; top:5px; left:10px;" href="/errors?component=<%= component %>&action=<%= action %>&error_class="><%= location %> (<%= percentage %>%)</a>
                   <div class="bar" style="color: black; width: <%= percentage %>%;"></div>
                 </div>
               <% end %>
