@@ -64,6 +64,12 @@
             </div>
           </div>
           <div class="control-group">
+            <label class="control-label" for="inputOpen">Open Report?:</label>
+            <div class="controls">
+              <input type="checkbox" id="inputOpen" name="open" <%= params[:open] == "on" ? "checked='checked'" : '' %>/>
+            </div>
+          </div>
+          <div class="control-group">
             <div class="controls">
               <button type="submit" class="btn">Search</button>
             </div>
@@ -113,7 +119,11 @@
           <pre><%= error.request_info %> => <%= error.component %>#<%= error.action %></pre>
           <div>
             <a href="/errors/<%= error.id %>" class="btn btn-primary">Show</a>
-            <a href="/errors/close/<%= error.id %>" class="btn btn-danger">Close</a>
+            <% if error.open == true %>
+              <a href="/errors/close/<%= error.id %>" class="btn btn-danger">Close</a>
+            <% else %>
+              <span>Closed</span>
+            <% end %>
           </div>
         </div>
       <% end %>

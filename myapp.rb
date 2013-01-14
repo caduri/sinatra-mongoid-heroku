@@ -57,7 +57,7 @@ class Protected < Sinatra::Base
     params.delete(:page)
     search_params = params.dup
     search_params.delete_if { |key, val| val.to_s == ""}
-    search_params.merge!({:open => true})
+    search_params["open"] != "on" ? search_params["open"] = false : search_params["open"] = true
     @errors = ErrorReport.where(search_params).limit(20).skip((page - 1) * 20).desc("_id").all
     erb :index
   end
